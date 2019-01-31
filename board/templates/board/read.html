@@ -5,12 +5,16 @@
 <div class="container">
     
     <h3> {{board.title}} </h3><br>
-    
-    <h5> {{board.content1}} VS {{board.content2}} </h5>
-    
+    <div class="row">
+        <img src="{{jpg1}}" alt="{{board.content1}}" class="m-3">
+        <img src="{{jpg2}}" alt="{{board.content2}}" class="m-3">
+    </div>
     
     <a href="/board/{{board.id}}/delete/"> 삭제 </a>
     <a href="/board/{{board.id}}/edit/"> 수정 </a><br>
+    
+    
+    
     
     <h3>score: {{comment1}} vs {{comment2}}</h3><hr>
     {% for comment in board.comment_set.all %}

@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
-from .models import Board, Comment 
+from .models import Board, Comment
+import requests
+from bs4 import BeautifulSoup
 
 # Create your views here.
 
@@ -20,15 +22,17 @@ def create(request):
     return redirect("/board/")
     
 def read(request, id):
+    url = "https://search.naver.com/search.naver?where=image&query="
     board = Board.objects.get(pk=id)
-    comments = board.comment_set.all()
-    comment1,comment2 = (0,0)
-    for comment in comments:
-        if comment.checkValue == 1:
-            comment1 += 1
-        else:
-            comment2 += 1
-    return render(request, "board/read.html", {'board':board, "comment1":comment1, "comment2":comment2})
+    res1 = requests.get(url+board.content1).text
+    res2 = requests.get(url+board.content2).text
+    soup1 = BeautifulSoup(res1,"html.parser")
+    soup2 = BeautifulSoup(res2,"html.parser")
+    jpg1 = soup1.select_one("#_sau_imageTab > div.photowall._photoGridWrapper > div.photo_grid._box > div:nth-child(1) > a.thumb._thumb > img").get("data-source")
+    jpg2 = soup2.select_one("#_sau_imageTab > div.photowall._photoGridWrapper > div.photo_grid._box > div:nth-child(1) > a.thumb._thumb > img").get("data-source")
+    comment1 = board.comment_set.all().filter(checkValue=1).count()
+    comment2 = board.comment_set.all().filter(checkValue=2).count()
+    return render(request, "board/read.html", {'board':board, "comment1":comment1, "comment2":comment2, "jpg1":jpg1, "jpg2":jpg2})
     
 def delete(request, id):
     Board.objects.get(pk=id).delete()

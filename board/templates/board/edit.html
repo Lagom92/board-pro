@@ -6,7 +6,8 @@
 <form action="/board/{{board.id}}/update/", method='post'>
     {% csrf_token %}
     <input type="text" name="title" value="{{board.title}}" />
-    <input type="text" name="content" value="{{board.content}}" />
+    <input type="text" name="content1" value="{{board.content1}}" />
+    <input type="text" name="content2" value="{{board.content2}}" />
     
     <input type="submit" value="update"/>
 </form>
