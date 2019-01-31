@@ -1,0 +1,17 @@
+{% extends 'board/base.html' %}
+
+{% block body_block%}
+
+
+<form action="/board/create/", method='post'>
+    {% csrf_token %}
+    <input type="text" name="title"/>
+    <input type="text" name="content1"/>
+    <input type="text" name="content2"/>
+    
+
+    <input type="submit" value="Submit"/>
+</form>
+
+
+{% endblock %}

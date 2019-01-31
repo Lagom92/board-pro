@@ -1,0 +1,13 @@
+{% extends 'board/base.html' %}
+
+{% block body_block%}
+
+{% for board in boards %}
+
+<H2>{{board.title}}</H2>
+<a href="/board/{{board.id}}/"> 보기 </a>
+
+{% endfor %}
+
+
+{% endblock %}
