@@ -2,30 +2,37 @@
 
 {% block body_block%}
 
-
-<h3> {{board.title}} </h3>
-
-<h5> {{board.content1}} </h5>
-<h5> {{board.content2}} </h5>
-
-<a href="/board/{{board.id}}/delete/"> 삭제 </a>
-<a href="/board/{{board.id}}/edit/"> 수정 </a>
-
-<h1>{{comment1}} || {{comment2}}</h1>
-{% for comment in board.comment_set.all %}
-    {{comment.content}}
-    <a href="/board/{{board.id}}/{{comment.id}}/delete"> 삭제 </a>
+<div class="container">
     
+    <h3> {{board.title}} </h3><br>
+    
+    <h5> {{board.content1}} VS {{board.content2}} </h5>
+    
+    
+    <a href="/board/{{board.id}}/delete/"> 삭제 </a>
+    <a href="/board/{{board.id}}/edit/"> 수정 </a><br>
+    
+    <h3>score: {{comment1}} vs {{comment2}}</h3><hr>
+    {% for comment in board.comment_set.all %}
+        <p> {{comment.content}} </p>
+        <a href="/board/{{board.id}}/{{comment.id}}/delete"> 삭제 </a><hr>
+        
+    
+    {% endfor %}
+    
+    <form action="/board/{{board.id}}/comment/create/", method='post'>
+        {% csrf_token %}
+        <input type="text" name="content"/><br>
+        <input type="radio" name="checkValue" value=1 checked>1번. {{board.content1}}</input>
+        <input type="radio" name="checkValue" value=2 >2번. {{board.content2}}</input>
+        <input type="submit" value="Submit"/>
+    </form>
+        
+    
+</div>
 
-{% endfor %}
 
-<form action="/board/{{board.id}}/comment/create/", method='post'>
-    {% csrf_token %}
-    <input type="text" name="content"/>
-    <input type="radio" name="checkValue" value=1 checked>1번. {{board.content1}}</input>
-    <input type="radio" name="checkValue" value=2 >2번. {{board.content2}}</input>
-    <input type="submit" value="Submit"/>
-</form>
+
 
 
 
